@@ -2010,15 +2010,36 @@ th {
   border-bottom: 1px solid var(--border) !important;
 }
 
+.school-sheet__subtitle {
+  color: #374151 !important;
+}
+
 .school-sheet__section {
   border: 1px solid var(--border) !important;
-  background: #f9fafb !important;
+  background: #f3f4f6 !important; /* Slightly darker gray to contrast white items */
   box-shadow: none !important;
+}
+
+.school-sheet__section-head h4 {
+  color: #111827 !important;
+}
+
+.school-sheet__section-head p {
+  color: #4b5563 !important;
 }
 
 .school-sheet__item {
   background: #ffffff !important;
   border: 1px solid var(--border) !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02) !important;
+}
+
+.school-sheet__item dt {
+  color: #4b5563 !important;
+}
+
+.school-sheet__item dd {
+  color: #111827 !important;
 }
 
 .school-sheet__tag {
@@ -2041,6 +2062,10 @@ th {
   border-top: 1px solid var(--border) !important;
 }
 
+.school-sheet__map-caption {
+  color: #4b5563 !important;
+}
+
 .school-sheet__literacy-source,
 .school-sheet__section-source,
 .school-enrichment__source {
@@ -2048,32 +2073,59 @@ th {
   color: var(--muted) !important;
 }
 
+/* Enrichment cards and text contrast */
 .school-enrichment__card {
   background: #ffffff !important;
   border: 1px solid var(--border) !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02) !important;
 }
 
 .school-enrichment__detail-card {
   background: #ffffff !important;
   border: 1px solid var(--border) !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02) !important;
+}
+
+.school-enrichment__label {
+  color: #4b5563 !important;
+}
+
+.school-enrichment__value {
+  color: var(--accent-2) !important; /* Bold green value */
+}
+
+.school-enrichment__caption {
+  color: #4b5563 !important; /* Dark text for contrast */
+}
+
+.school-enrichment__detail-title {
+  color: #111827 !important;
+}
+
+.school-enrichment__detail-list dt {
+  color: #4b5563 !important;
+}
+
+.school-enrichment__detail-list dd {
+  color: #111827 !important;
 }
 
 .school-enrichment__flag.is-available {
   background: #dcfce7 !important;
-  color: var(--accent-2) !important;
+  color: #15803d !important;
   border: 1px solid #bbf7d0 !important;
 }
 
 .school-enrichment__flag.is-unavailable {
   background: #f3f4f6 !important;
-  color: var(--muted) !important;
+  color: #4b5563 !important;
   border: 1px solid #e5e7eb !important;
 }
 
 .school-enrichment__status {
   border: 1px solid var(--border) !important;
   background: #ffffff !important;
-  color: var(--text) !important;
+  color: #111827 !important;
 }
 
 .school-enrichment__link {
