@@ -1981,3 +1981,141 @@ th {
     text-align: center;
   }
 }
+
+/* ==========================================================================
+   School Modal & Sheet - Light Theme Overrides (Green, White, Gray, Black)
+   ========================================================================== */
+.school-modal__backdrop {
+  background: rgba(0, 0, 0, 0.4); /* Softer backdrop for light theme */
+}
+
+.school-modal__panel {
+  background: var(--panel) !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15) !important;
+}
+
+.school-modal__close {
+  background: #ffffff !important;
+  border: 1px solid var(--border) !important;
+  color: var(--text) !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08) !important;
+}
+.school-modal__close:hover {
+  background: #f9fafb !important;
+  color: var(--accent) !important;
+}
+
+.school-sheet__header {
+  border-bottom: 1px solid var(--border) !important;
+}
+
+.school-sheet__section {
+  border: 1px solid var(--border) !important;
+  background: #f9fafb !important;
+  box-shadow: none !important;
+}
+
+.school-sheet__item {
+  background: #ffffff !important;
+  border: 1px solid var(--border) !important;
+}
+
+.school-sheet__tag {
+  background: #e5e7eb !important;
+  color: var(--text) !important;
+}
+
+.school-sheet__map-frame {
+  border: 1px solid var(--border) !important;
+  background: #ffffff !important;
+}
+
+.school-sheet__map-empty {
+  border: 1px dashed var(--border) !important;
+  background: #ffffff !important;
+  color: var(--muted) !important;
+}
+
+.school-sheet__map-footer {
+  border-top: 1px solid var(--border) !important;
+}
+
+.school-sheet__literacy-source,
+.school-sheet__section-source,
+.school-enrichment__source {
+  border-top: 1px solid var(--border) !important;
+  color: var(--muted) !important;
+}
+
+.school-enrichment__card {
+  background: #ffffff !important;
+  border: 1px solid var(--border) !important;
+}
+
+.school-enrichment__detail-card {
+  background: #ffffff !important;
+  border: 1px solid var(--border) !important;
+}
+
+.school-enrichment__flag.is-available {
+  background: #dcfce7 !important;
+  color: var(--accent-2) !important;
+  border: 1px solid #bbf7d0 !important;
+}
+
+.school-enrichment__flag.is-unavailable {
+  background: #f3f4f6 !important;
+  color: var(--muted) !important;
+  border: 1px solid #e5e7eb !important;
+}
+
+.school-enrichment__status {
+  border: 1px solid var(--border) !important;
+  background: #ffffff !important;
+  color: var(--text) !important;
+}
+
+.school-enrichment__link {
+  background: #eff6ff !important;
+  border: 1px solid #bfdbfe !important;
+  color: #1e40af !important;
+}
+.school-enrichment__link:hover {
+  background: #dbeafe !important;
+  color: #1e40af !important;
+}
+
+.school-enrichment__retry {
+  background: #f0fdf4 !important;
+  border: 1px solid #bbf7d0 !important;
+  color: var(--accent-2) !important;
+}
+.school-enrichment__retry:hover {
+  background: #dcfce7 !important;
+  color: var(--accent-2) !important;
+}
+
+/* Sources modal overrides */
+.sources-sheet__callout {
+  border: 1px solid var(--border) !important;
+  background: #f0fdf4 !important;
+  color: var(--text) !important;
+}
+.sources-sheet__callout strong {
+  color: var(--accent-2) !important;
+}
+
+.sources-sheet__card {
+  border: 1px solid var(--border) !important;
+  background: #ffffff !important;
+}
+
+.sources-sheet__card-description,
+.sources-sheet__list li {
+  color: var(--text) !important;
+}
+
+.sources-sheet__card-source {
+  border-top: 1px solid var(--border) !important;
+}

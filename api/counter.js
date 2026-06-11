@@ -12,7 +12,7 @@ export default async function handler(req, res) {
 
   if (!url || !token) {
     console.warn("Vercel KV environment variables are not set. Using fallback mock counter.");
-    const baseVisits = 1402;
+    const baseVisits = 0;
     return res.status(200).json({ visits: baseVisits, mock: true });
   }
 
@@ -33,15 +33,15 @@ export default async function handler(req, res) {
     const data = await kvResponse.json();
     const result = data.result;
 
-    let visits = result !== null ? Number(result) : 1;
+    let visits = result !== null ? Number(result) : 0;
     
     if (isNaN(visits)) {
-      visits = 1402;
+      visits = 0;
     }
 
     return res.status(200).json({ visits });
   } catch (error) {
     console.error("Error updating/fetching visit counter:", error);
-    return res.status(500).json({ error: "Failed to update visit counter", fallbackVisits: 1402 });
+    return res.status(500).json({ error: "Failed to update visit counter", fallbackVisits: 0 });
   }
 }
