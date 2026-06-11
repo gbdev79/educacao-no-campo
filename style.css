@@ -2119,3 +2119,121 @@ th {
 .sources-sheet__card-source {
   border-top: 1px solid var(--border) !important;
 }
+
+/* ==========================================================================
+   Main Panel - Educational Inequality & Contrast Overrides
+   ========================================================================== */
+
+/* 1. Darken general muted color for better contrast */
+:root {
+  --muted: #4b5563 !important; /* Darker gray for general body text */
+}
+
+/* 2. Fix light gray/white text on white background */
+.stat .meta {
+  color: var(--muted) !important;
+}
+
+.field-hint {
+  color: var(--muted) !important;
+}
+
+.literacy-metric__caption {
+  color: var(--muted) !important;
+}
+
+.education-dashboard__header .education-dashboard__population-note {
+  color: var(--text) !important;
+  border-left-color: var(--accent) !important;
+}
+
+.education-dashboard__chart-note,
+.education-dashboard__chart-head p {
+  color: var(--muted) !important;
+}
+
+.education-dashboard__empty {
+  color: var(--muted) !important;
+  border-color: var(--border) !important;
+}
+
+.education-dashboard__footnote {
+  color: var(--muted) !important;
+}
+
+.education-compare__years {
+  background: #f3f4f6 !important;
+  border: 1px solid var(--border) !important;
+  color: var(--text) !important;
+}
+
+.education-compare__metric-head span {
+  color: var(--muted) !important;
+}
+
+.education-compare__metric-head strong {
+  color: var(--text) !important;
+}
+
+.school-sheet__literacy-status {
+  border: 1px solid var(--border) !important;
+  background: #f9fafb !important;
+  color: var(--text) !important;
+}
+
+/* 3. Enhance cards & boxes for Educational Inequality section */
+.literacy-metric {
+  background: #ffffff !important;
+  border: 1px solid var(--border) !important;
+  border-top: 4px solid var(--accent) !important; /* Accent border for premium look */
+  box-shadow: var(--shadow) !important;
+}
+
+.education-dashboard__chart-wrap {
+  background: #ffffff !important;
+  border: 1px solid var(--border) !important;
+  border-top: 4px solid var(--accent) !important;
+  box-shadow: var(--shadow) !important;
+}
+
+.education-dashboard__chart-head {
+  border-bottom: 1px solid var(--border) !important;
+}
+
+.education-dashboard__meta {
+  border-top: 1px solid var(--border) !important;
+}
+
+.education-compare__row {
+  background: #ffffff !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02) !important;
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.education-compare__row.is-active {
+  border-color: var(--accent) !important;
+  box-shadow: 0 4px 12px rgba(21, 128, 61, 0.08), inset 0 0 0 1px var(--accent) !important;
+}
+
+/* Progress bar track contrast (make it visible on white background) */
+.education-compare__track {
+  background: #e5e7eb !important; /* Darker gray for track background */
+}
+
+/* 4. Vibrant chart colors */
+.education-compare__fill--low-schooling {
+  background: linear-gradient(90deg, #f97316, #ea580c) !important; /* Vibrant Orange */
+}
+
+.education-compare__fill--primary-complete {
+  background: linear-gradient(90deg, #eab308, #ca8a04) !important; /* Vibrant Gold/Yellow */
+}
+
+.education-compare__fill--secondary {
+  background: linear-gradient(90deg, #22c55e, #16a34a) !important; /* Vibrant Green */
+}
+
+.education-compare__fill--higher {
+  background: linear-gradient(90deg, #3b82f6, #2563eb) !important; /* Vibrant Blue */
+}
