@@ -1,13 +1,13 @@
 :root {
-  --bg: #07111f;
-  --panel: #0f1b2d;
-  --border: rgba(255,255,255,0.08);
-  --text: #eef4ff;
-  --muted: #9fb0cc;
-  --accent: #66b3ff;
-  --accent-2: #96ffcf;
-  --shadow: 0 20px 40px rgba(0,0,0,.25);
-  --radius: 24px;
+  --bg: #f9fafb;
+  --panel: #ffffff;
+  --border: #e5e7eb;
+  --text: #111827;
+  --muted: #6b7280;
+  --accent: #15803d;
+  --accent-2: #166534;
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  --radius: 12px;
 }
 
 * {
@@ -18,14 +18,51 @@ body {
   margin: 0;
   font-family: Inter, Arial, sans-serif;
 
-  background: linear-gradient(
-    180deg,
-    #1f3d2b 0%,
-    #2e5e3e 60%
-  );
-
+  background: var(--bg);
   color: var(--text);
   overflow-x: hidden;
+}
+
+.topbar {
+  background: var(--accent);
+  border-bottom: 4px solid var(--accent-2);
+  padding: 16px 24px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  display: flex;
+  justify-content: center;
+}
+
+.topbar-inner {
+  width: 100%;
+  max-width: 1720px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.topbar .logo {
+  height: 48px;
+  width: auto;
+}
+
+.visit-counter {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  color: #ffffff;
+}
+
+.visit-counter-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.8;
+}
+
+.visit-counter-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: #ffffff;
 }
 
 body.modal-open {
@@ -39,7 +76,7 @@ body.modal-open {
 }
 
 .card {
-  background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+  background: var(--panel);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
@@ -102,41 +139,58 @@ button {
 input[type="text"],
 select {
   width: 100%;
-  background: rgba(255,255,255,.05);
+  background: #ffffff;
   color: var(--text);
   border: 1px solid var(--border);
-  border-radius: 14px;
+  border-radius: 8px;
   padding: 12px 14px;
   outline: none;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  transition: .2s ease;
+}
+
+input[type="text"]:focus,
+select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(21, 128, 61, 0.1);
 }
 
 select option {
-  color: #101828;
+  color: #111827;
   background: #ffffff;
 }
 
 input::placeholder {
-  color: #8ea1c1;
+  color: #9ca3af;
 }
 
 button {
   border: 0;
-  border-radius: 14px;
+  border-radius: 8px;
   padding: 12px 16px;
   font-weight: 700;
   cursor: pointer;
   transition: .2s ease;
+  background: var(--accent);
+  color: #ffffff;
 }
 
 button.secondary {
-  background: rgba(255,255,255,.06);
-  color: var(--text);
+  background: #ffffff;
   border: 1px solid var(--border);
+  color: var(--text);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
 }
 
 button:hover {
   transform: translateY(-1px);
-  filter: brightness(1.04);
+  background: var(--accent-2);
+}
+
+button.secondary:hover {
+  background: #f9fafb;
+  border-color: #d1d5db;
+  color: var(--text);
 }
 
 button[disabled] {
@@ -172,6 +226,7 @@ button[disabled] {
   letter-spacing: -0.04em;
   line-height: 1.05;
   word-break: break-word;
+  color: var(--accent);
 }
 
 .stat .meta {
@@ -426,13 +481,13 @@ th {
 }
 
 .school-row:hover td {
-  background: rgba(255,255,255,.045);
-  border-bottom-color: rgba(150,255,207,.14);
+  background: #f0fdf4;
+  border-bottom-color: var(--accent);
 }
 
 .school-row:hover .school-name,
 .school-row:hover .address-text {
-  color: #f6fffb;
+  color: var(--accent-2);
 }
 
 .address-text {
@@ -538,8 +593,9 @@ th {
   gap: 6px;
   padding: 6px 10px;
   border-radius: 999px;
-  background: rgba(102,179,255,.12);
-  color: #cde8ff;
+  background: #dcfce7;
+  color: var(--accent-2);
+  border: 1px solid #bbf7d0;
   font-size: 12px;
   font-weight: 700;
 }
@@ -820,9 +876,9 @@ th {
   justify-content: center;
   padding: 10px 16px;
   border-radius: 999px;
-  border: 1px solid rgba(150,255,207,.18);
-  background: rgba(255,255,255,.04);
-  color: var(--accent-2);
+  border: 1px solid var(--accent);
+  background: #ffffff;
+  color: var(--accent);
   text-decoration: none;
   font-size: 13px;
   font-weight: 700;
@@ -834,9 +890,9 @@ th {
 .sources-link:hover,
 .sources-link:focus-visible {
   transform: translateY(-1px);
-  border-color: rgba(150,255,207,.34);
-  background: rgba(150,255,207,.08);
-  color: #caffeb;
+  border-color: var(--accent-2);
+  background: var(--accent-2);
+  color: #ffffff;
   outline: none;
 }
 

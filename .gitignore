@@ -1,0 +1,11 @@
+# Cache de dados complementares (Cultura Educa)
+dados-complementares.json
+school-enrichment-cache/
+school-enrichment-bundle/
+school-enrichment-status/
+
+# Configurações locais e temporários
+.gemini/
+.vscode/
+node_modules/
+tmp/

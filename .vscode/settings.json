@@ -1,3 +1,27 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:41b053a69f57d282624ccccbc44ef195ee13770e7037cf59f22cffc9c749f422
-size 40
+{
+  "files.watcherExclude": {
+    "**/dados-complementares.json": true,
+    "**/school-enrichment-cache/**": true,
+    "**/school-enrichment-bundle/**": true,
+    "**/school-enrichment-status/**": true,
+    "**/tmp/**": true,
+    "**/output/**": true
+  },
+  "search.exclude": {
+    "**/dados-complementares.json": true,
+    "**/school-enrichment-cache/**": true,
+    "**/school-enrichment-bundle/**": true,
+    "**/school-enrichment-status/**": true,
+    "**/tmp/**": true,
+    "**/output/**": true
+  },
+  "liveServer.settings.ignoreFiles": [
+    ".vscode/**",
+    "**/dados-complementares.json",
+    "**/school-enrichment-cache/**",
+    "**/school-enrichment-bundle/**",
+    "**/school-enrichment-status/**",
+    "**/tmp/**",
+    "**/output/**"
+  ]
+}

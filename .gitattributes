@@ -1,2 +1,4 @@
 *.csv filter=lfs diff=lfs merge=lfs -text
 *.json filter=lfs diff=lfs merge=lfs -text
+.vscode/*.json -filter -diff -merge text
+scripts/*.json -filter -diff -merge text

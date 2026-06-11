@@ -1,8 +1,8 @@
 const DATA_URL = "escolas-rurais.json";
 const DEFAULT_PAGE_SIZE = 10;
 const EMPTY_CELL = "&mdash;";
-const IBGE_LOCALIDADES_API = "https://servicodados.ibge.gov.br/api/v1/localidades";
-const SIDRA_API = "https://apisidra.ibge.gov.br/values";
+const IBGE_LOCALIDADES_API = "/api/proxy?url=" + encodeURIComponent("https://servicodados.ibge.gov.br/api/v1/localidades");
+const SIDRA_API = "/api/proxy?url=" + encodeURIComponent("https://apisidra.ibge.gov.br/values");
 const LITERACY_TABLE_ID = "9543";
 const LITERACY_YEAR = "2022";
 const LITERACY_SOURCE_LABEL = "IBGE • Censo Demográfico 2022";
@@ -567,122 +567,6 @@ function buildSchoolEnrichmentShardUrl(shardId) {
   return `${SCHOOL_ENRICHMENT_BUNDLE_DIR}/shard-${String(resolvedShardId).padStart(4, "0")}.json`;
 }
 
-async function ensureSchoolEnrichmentManifestLoaded() {
-  if (app.schoolEnrichment.manifest) {
-    return app.schoolEnrichment.manifest;
-  }
-
-  if (!app.schoolEnrichment.pendingManifestPromise) {
-    app.schoolEnrichment.pendingManifestPromise = (async () => {
-      try {
-        let data;
-
-        try {
-          data = await loadJsonWithFetch(SCHOOL_ENRICHMENT_BUNDLE_MANIFEST_URL);
-        } catch (fetchError) {
-          data = await loadJsonWithXhr(SCHOOL_ENRICHMENT_BUNDLE_MANIFEST_URL);
-        }
-
-        if (data && typeof data === "object") {
-          app.schoolEnrichment.manifest = data;
-          return data;
-        }
-      } catch (error) {
-        // Se a base fragmentada ainda não existir, seguimos com os fallbacks locais.
-      } finally {
-        app.schoolEnrichment.pendingManifestPromise = null;
-      }
-
-      app.schoolEnrichment.manifest = null;
-      return null;
-    })();
-  }
-
-  return app.schoolEnrichment.pendingManifestPromise;
-}
-
-async function ensureSchoolEnrichmentShardLoaded(shardId) {
-  const resolvedShardId = Number(shardId);
-
-  if (!Number.isFinite(resolvedShardId) || resolvedShardId < 1) {
-    return null;
-  }
-
-  if (app.schoolEnrichment.loadedShardIds.has(resolvedShardId)) {
-    return resolvedShardId;
-  }
-
-  if (!app.schoolEnrichment.pendingShardById.has(resolvedShardId)) {
-    const request = (async () => {
-      const shardUrl = buildSchoolEnrichmentShardUrl(resolvedShardId);
-
-      if (!shardUrl) {
-        return null;
-      }
-
-      try {
-        let data;
-
-        try {
-          data = await loadJsonWithFetch(shardUrl);
-        } catch (fetchError) {
-          data = await loadJsonWithXhr(shardUrl);
-        }
-
-        if (data && typeof data === "object") {
-          Object.assign(app.schoolEnrichment.byInep, data);
-          app.schoolEnrichment.loadedShardIds.add(resolvedShardId);
-          return resolvedShardId;
-        }
-      } catch (error) {
-        // Se o shard ainda não existir, seguimos com os outros fallbacks.
-      }
-
-      return null;
-    })().finally(() => {
-      app.schoolEnrichment.pendingShardById.delete(resolvedShardId);
-    });
-
-    app.schoolEnrichment.pendingShardById.set(resolvedShardId, request);
-  }
-
-  return app.schoolEnrichment.pendingShardById.get(resolvedShardId);
-}
-
-async function ensureLegacySchoolEnrichmentLoaded() {
-  if (app.schoolEnrichment.legacyLoaded) {
-    return app.schoolEnrichment.byInep;
-  }
-
-  if (!app.schoolEnrichment.pendingLegacyPromise) {
-    app.schoolEnrichment.pendingLegacyPromise = (async () => {
-      try {
-        let data;
-
-        try {
-          data = await loadJsonWithFetch(SCHOOL_ENRICHMENT_LEGACY_CACHE_URL);
-        } catch (fetchError) {
-          data = await loadJsonWithXhr(SCHOOL_ENRICHMENT_LEGACY_CACHE_URL);
-        }
-
-        if (data && typeof data === "object") {
-          Object.assign(app.schoolEnrichment.byInep, data);
-        }
-      } catch (error) {
-        // O cache legado continua apenas como fallback para registros antigos.
-      } finally {
-        app.schoolEnrichment.legacyLoaded = true;
-      }
-
-      return app.schoolEnrichment.byInep;
-    })().finally(() => {
-      app.schoolEnrichment.pendingLegacyPromise = null;
-    });
-  }
-
-  return app.schoolEnrichment.pendingLegacyPromise;
-}
-
 async function ensureSchoolEnrichmentByInep(inepCode) {
   const resolvedInepCode = text(inepCode);
 
@@ -696,42 +580,28 @@ async function ensureSchoolEnrichmentByInep(inepCode) {
 
   if (!app.schoolEnrichment.pendingByInep.has(resolvedInepCode)) {
     const request = (async () => {
-      const manifest = await ensureSchoolEnrichmentManifestLoaded();
-      const shardId = Number(manifest?.entries?.[resolvedInepCode]);
-
-      if (Number.isFinite(shardId) && shardId > 0) {
-        await ensureSchoolEnrichmentShardLoaded(shardId);
-
-        if (Object.prototype.hasOwnProperty.call(app.schoolEnrichment.byInep, resolvedInepCode)) {
-          delete app.schoolEnrichment.statusByInep[resolvedInepCode];
-          return app.schoolEnrichment.byInep[resolvedInepCode];
-        }
-      }
-
       try {
         let data;
-        const cacheUrl = buildSchoolEnrichmentCacheUrl(resolvedInepCode);
+        const apiUrl = `/api/school-enrichment?inepCode=${encodeURIComponent(resolvedInepCode)}`;
 
         try {
-          data = await loadJsonWithFetch(cacheUrl);
+          data = await loadJsonWithFetch(apiUrl);
         } catch (fetchError) {
-          data = await loadJsonWithXhr(cacheUrl);
+          data = await loadJsonWithXhr(apiUrl);
         }
 
         if (data && typeof data === "object") {
+          if (data.status === "not_found" || data.status === "error") {
+            app.schoolEnrichment.statusByInep[resolvedInepCode] = data;
+            return null;
+          }
+
           app.schoolEnrichment.byInep[resolvedInepCode] = data;
           delete app.schoolEnrichment.statusByInep[resolvedInepCode];
           return data;
         }
       } catch (error) {
-        // Se o arquivo individual ainda não existir, tentamos o cache legado.
-      }
-
-      await ensureLegacySchoolEnrichmentLoaded();
-
-      if (Object.prototype.hasOwnProperty.call(app.schoolEnrichment.byInep, resolvedInepCode)) {
-        delete app.schoolEnrichment.statusByInep[resolvedInepCode];
-        return app.schoolEnrichment.byInep[resolvedInepCode];
+        console.error("Erro ao carregar dados complementares:", error);
       }
 
       return null;
@@ -761,26 +631,10 @@ async function ensureSchoolEnrichmentStatusByInep(inepCode, { force = false } = 
   }
 
   const request = (async () => {
-    const statusUrl = buildSchoolEnrichmentStatusUrl(resolvedInepCode);
+    // Para obter o status, basta carregar a API principal que já popula o statusByInep caso não encontre a escola
+    await ensureSchoolEnrichmentByInep(resolvedInepCode);
 
-    try {
-      let data;
-
-      try {
-        data = await loadJsonWithFetch(statusUrl);
-      } catch (fetchError) {
-        data = await loadJsonWithXhr(statusUrl);
-      }
-
-      if (data && typeof data === "object") {
-        app.schoolEnrichment.statusByInep[resolvedInepCode] = data;
-        return data;
-      }
-    } catch (error) {
-      // Se o status ainda não existir, mantemos o fallback de indisponibilidade genérica.
-    }
-
-    if (force) {
+    if (force && !app.schoolEnrichment.statusByInep[resolvedInepCode]) {
       delete app.schoolEnrichment.statusByInep[resolvedInepCode];
     }
 
@@ -3905,8 +3759,27 @@ if (els.paginationWrapBottom) {
   syncCityFilterOptions({ preserveSelection: false });
 }
 
+async function initVisitCounter() {
+  const visitCounterEl = document.getElementById("visitCounter");
+  if (!visitCounterEl) return;
+  
+  try {
+    const response = await fetch("/api/counter");
+    if (!response.ok) {
+      throw new Error(`Failed to fetch visit count: ${response.status}`);
+    }
+    const data = await response.json();
+    if (data && typeof data.visits === "number") {
+      visitCounterEl.textContent = data.visits.toLocaleString("pt-BR");
+    }
+  } catch (error) {
+    console.error("Erro ao carregar o contador de visitas:", error);
+  }
+}
+
 bindEvents();
 loadLocalData();
+initVisitCounter();
 
 // Declara os estados e suas macrorregiões
 const regioesPorUFLegacyBottom = {
