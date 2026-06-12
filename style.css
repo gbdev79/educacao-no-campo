@@ -2289,3 +2289,19 @@ th {
 .education-compare__fill--higher {
   background: linear-gradient(90deg, #3b82f6, #2563eb) !important; /* Vibrant Blue */
 }
+
+/* 5. Main Footer Styles */
+.main-footer {
+  text-align: center;
+  padding: 24px 16px;
+  margin-top: 32px;
+  border-top: 1px solid var(--border);
+}
+
+.main-footer p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--muted);
+  font-weight: 500;
+  line-height: 1.5;
+}
